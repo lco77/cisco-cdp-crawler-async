@@ -61,3 +61,116 @@ CDP Crawler has some parameters to control the discovery process:
 - "dns_domains" is a list of DNS suffixes. Should the CDP neighbor advertise an IP outside of "ssh_valid_ip_ranges", CDP Crawler attempts to resolve its hostname using these suffixes. If a DNS A record is found AND it belongs to "ssh_valid_ip_ranges", then CDP Crawler attempts SSH discovery on this node.
 - "cdp_skip_patterns" is a list of strings that CDP Crawler will match against the platform field of CDP neighbors. Matching neighbors are dismissed from SSH discovery. Useful for IP Phones or other types of IOT devices. NOTE that such dismissed devices are reported as discovered in the inventory. CDP Crawler will simply skip SSH into them, hence blocking further discoveries.
 - "csv_filename" is a filesystem path to a file that CDP Crawler will create/overwrite with the discovery result in CSV format
+
+# Installation
+
+CDP Crawler has minimal dependencies:
+
+```python
+pip install aiodns
+pip install dotenv
+pip install asyncssh
+pip install ipaddress
+```
+
+You will also need to add https://github.com/lco77/cisco-catalyst-sdwan-client-async
+
+# Configuration
+
+Although CDP Crawler comes with default settings, it is not useable out of the box. You have to create a ".env" file and add your own settings.
+
+## semaphore (string)
+Max number of concurent AsyncIO tasks
+Example:
+```shell
+semaphore="1000"
+```
+
+## ssh_timeout (string)
+SSH connect timeout
+Example:
+```shell
+ssh_timeout="10s"
+```
+
+## ssh_kex_algs (string)
+Accepted SSH key exchange algorithms in CSV string format
+Example:
+```shell
+ssh_kex_algs="*"
+```
+or
+```shell
+ssh_kex_algs="gss-group14-sha256,diffie-hellman-group14*"
+```
+
+## ssh_encryption_algs (string)
+Accepted SSH encryption algorithms in CSV string format
+Example:
+```shell
+ssh_encryption_algs="*"
+```
+or
+```shell
+ssh_encryption_algs="chacha20-poly1305@openssh.com,aes256*"
+```
+
+## ssh_mac_algs (string)
+Accepted SSH MAC algorithms in CSV string format
+Example:
+```shell
+ssh_mac_algs="*"
+```
+or
+```shell
+ssh_mac_algs="hmac-sha2-256*,hmac-sha256*"
+```
+## ssh_valid_ip_ranges (JSON list string)
+IPv4 CIDRs that CDP Crawler will attempt connecting to
+Example:
+```shell
+ssh_valid_ip_ranges=["10.0.0.0/8"]
+```
+
+## ssh_credentials (JSON object string)
+SSH credentials that CDP Crawler will try in order. Note that "id" is an arbitrary reference to uniquely identify the credential.
+Example:
+```shell
+ssh_credentials=[{"id":"tacacs","username":"username","password":"password"}]
+```
+
+## vmanage_credentials (JSON object string)
+Vmanage/Cisco Catalyst SDWAN Manager credentials that CDP Crawler will use to discover initials seeds. NOTE that "id" refers to the Vmanage hostname.
+Example:
+```shell
+ssh_credentials=[{"id":"hostname","username":"username","password":"password"}]
+```
+
+## csv_filename (string)
+A filesystem path to a file that will contain exported results
+Example:
+```shell
+csv_filename="./cdp_crawler.csv"
+```
+
+## dns_domains (JSON list string)
+A list of DNS suffixes that will be used to resolve unreachable CDP neighbors (by mean of: does not belong to "ssh_valid_ip_ranges")
+Example:
+```shell
+dns_domains=["companyA.com","companyB.com"]
+```
+
+## manual_seeds (JSON object string)
+A dictionary of initial seeds.
+NOTE that "credential" property MUST refer to a valid "id" property defined in "ssh_credentials"
+NOTE that "id" property MUST be equal to the CDP ID of the device. Otherwise the device will be discovered twice.
+Example:
+```shell
+manual_seeds=[{"id":"tacacs","hostname":"myhost","ip_address":"192.168.0.1","description":"Cisco Core Switch","parent":"","credential":"tacacs"}]
+```
+
+# Usage
+Hmm, well. Once configured, using CDP Crawler is just about running it:
+```shell
+python ./cdp_crawler.py
+```
