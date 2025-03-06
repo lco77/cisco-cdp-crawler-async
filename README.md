@@ -6,13 +6,13 @@ AsyncIO CDP crawler to discover devices on your network
 - Tested on Cisco Catalyst/ISR/Nexus switches and router with various software releases
 - Tested to discover ~2500 devices in ~100 locations wordwide under 90 seconds
 
-  # Overview
+# Overview
 
-  Discovery requires some "seed" device(s) to start the discovery from somewhere.
+Discovery requires some "seed" device(s) to start the discovery from somewhere.
 
-  Seeds can be configured:
-  - manually using the "manual_seed" parameter
-  - dynamically from Cisco Catalyst SDWAN manager using the "vmanage_credentials" parameter
+Seeds can be configured:
+- manually using the "manual_seed" parameter
+- dynamically from Cisco Catalyst SDWAN manager using the "vmanage_credentials" parameter
 
 Once some seeds are configured, CDP Crawler will concurently connect to those seeds using SSH, based on a list of credentials defined in "ssh_credentials" parameter:
 - credentials are tested one after another
