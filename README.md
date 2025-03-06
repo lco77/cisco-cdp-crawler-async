@@ -81,6 +81,7 @@ Although CDP Crawler comes with default settings, it is not useable out of the b
 
 ## semaphore (string)
 Max number of concurent AsyncIO tasks
+
 Example:
 ```shell
 semaphore="1000"
@@ -95,6 +96,7 @@ ssh_timeout="10s"
 
 ## ssh_kex_algs (string)
 Accepted SSH key exchange algorithms in CSV string format
+
 Example:
 ```shell
 ssh_kex_algs="*"
@@ -106,6 +108,7 @@ ssh_kex_algs="gss-group14-sha256,diffie-hellman-group14*"
 
 ## ssh_encryption_algs (string)
 Accepted SSH encryption algorithms in CSV string format
+
 Example:
 ```shell
 ssh_encryption_algs="*"
@@ -117,6 +120,7 @@ ssh_encryption_algs="chacha20-poly1305@openssh.com,aes256*"
 
 ## ssh_mac_algs (string)
 Accepted SSH MAC algorithms in CSV string format
+
 Example:
 ```shell
 ssh_mac_algs="*"
@@ -127,20 +131,23 @@ ssh_mac_algs="hmac-sha2-256*,hmac-sha256*"
 ```
 ## ssh_valid_ip_ranges (JSON list string)
 IPv4 CIDRs that CDP Crawler will attempt connecting to
+
 Example:
 ```shell
 ssh_valid_ip_ranges=["10.0.0.0/8"]
 ```
 
 ## ssh_credentials (JSON object string)
-SSH credentials that CDP Crawler will try in order. Note that "id" is an arbitrary reference to uniquely identify the credential.
+SSH credentials that CDP Crawler will try in order. Note that "id" is an arbitrary reference to uniquely identify the credential
+
 Example:
 ```shell
 ssh_credentials=[{"id":"tacacs","username":"username","password":"password"}]
 ```
 
 ## vmanage_credentials (JSON object string)
-Vmanage/Cisco Catalyst SDWAN Manager credentials that CDP Crawler will use to discover initials seeds. NOTE that "id" refers to the Vmanage hostname.
+Vmanage/Cisco Catalyst SDWAN Manager credentials that CDP Crawler will use to discover initials seeds. NOTE that "id" refers to the Vmanage hostname
+
 Example:
 ```shell
 ssh_credentials=[{"id":"hostname","username":"username","password":"password"}]
@@ -148,6 +155,7 @@ ssh_credentials=[{"id":"hostname","username":"username","password":"password"}]
 
 ## csv_filename (string)
 A filesystem path to a file that will contain exported results
+
 Example:
 ```shell
 csv_filename="./cdp_crawler.csv"
@@ -155,15 +163,19 @@ csv_filename="./cdp_crawler.csv"
 
 ## dns_domains (JSON list string)
 A list of DNS suffixes that will be used to resolve unreachable CDP neighbors (by mean of: does not belong to "ssh_valid_ip_ranges")
+
 Example:
 ```shell
 dns_domains=["companyA.com","companyB.com"]
 ```
 
 ## manual_seeds (JSON object string)
-A dictionary of initial seeds.
+A dictionary of initial seeds
+
 NOTE that "credential" property MUST refer to a valid "id" property defined in "ssh_credentials"
-NOTE that "id" property MUST be equal to the CDP ID of the device. Otherwise the device will be discovered twice.
+
+NOTE that "id" property MUST be equal to the CDP ID of the device. Otherwise the device will be discovered twice
+
 Example:
 ```shell
 manual_seeds=[{"id":"tacacs","hostname":"myhost","ip_address":"192.168.0.1","description":"Cisco Core Switch","parent":"","credential":"tacacs"}]
@@ -171,6 +183,7 @@ manual_seeds=[{"id":"tacacs","hostname":"myhost","ip_address":"192.168.0.1","des
 
 # Usage
 Hmm, well. Once configured, using CDP Crawler is just about running it:
+
 ```shell
 python ./cdp_crawler.py
 ```
