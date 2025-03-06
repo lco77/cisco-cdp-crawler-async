@@ -94,6 +94,16 @@ Example:
 ssh_timeout="10s"
 ```
 
+## ssh_commands (JSON list string)
+SSH commands to fetch CDP neighbors
+
+NOTE that CDP Crawler currently supports "sh cdp entry *" and "sh cdp entry all", and both are configured as default. You may wish to restrict to only one command when you have a "Cisco Catalyst only" network or a "Cisco Nexus only" network.
+
+Example:
+```shell
+ssd_commands=["show cdp entry *","show cdp entry all"]
+```
+
 ## ssh_kex_algs (string)
 Accepted SSH key exchange algorithms in CSV string format
 
