@@ -100,7 +100,7 @@ ssh_valid_ip_ranges = [IPv4Network(cidr) for cidr in json.loads(os.getenv("ssh_v
 dns_domains = json.loads(os.getenv("dns_domains","[]"))
 
 # CSV output file name
-csv_filename = "./assets/cdp_discovery.csv"
+csv_filename = os.getenv("csv_filename","./export.csv")
 
 ###############################################################################
 ##                                FUNCTIONS                                  ##
